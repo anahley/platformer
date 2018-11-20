@@ -23,7 +23,10 @@ class GameViewController: UIViewController {
                 
                 // Present the scene
                 view.presentScene(scene)
-            }
+                
+            } /*else if let scene = SKScene(fileNamed: "SceneOne") {
+                
+            }*/
             
             view.ignoresSiblingOrder = true
             
@@ -38,7 +41,7 @@ class GameViewController: UIViewController {
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         if UIDevice.current.userInterfaceIdiom == .phone {
-            return .allButUpsideDown
+            return .landscape //make it landscape only for a wide platformer game
         } else {
             return .all
         }

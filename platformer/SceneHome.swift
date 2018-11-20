@@ -12,18 +12,30 @@ import GameplayKit
 class SceneHome: SKScene {
     
     var button: SKNode! = nil
+    let gameTitle = SKLabelNode(fontNamed: "Arial-BoldMT")
     
     func createButton() {
         
-        button = SKSpriteNode(imageNamed: "")
+        button = SKSpriteNode(imageNamed: "playButton")
         button.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
         addChild(button)
+        
+        
+    }
+    
+    func addTitle () {
+        
+        gameTitle.text = "Hello"
+        gameTitle.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
+        gameTitle.fontSize = 60
+        
         
     }
     
     override func didMove(to view: SKView) {
         
         createButton()
+        addTitle()
         
         
         
