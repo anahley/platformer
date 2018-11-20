@@ -24,9 +24,9 @@ class SceneHome: SKScene {
     func addTitle () {
         
         gameTitle.text = "Hello"
-        gameTitle.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
+        gameTitle.position = CGPoint(x: size.width * 0.5, y: size.height * 0.6)
         gameTitle.fontSize = 60
-        
+        addChild(gameTitle)
         
     }
     
