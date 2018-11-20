@@ -9,6 +9,9 @@
 import SpriteKit
 import GameplayKit
 
+/**
+ Scene for level one
+ */
 class SceneOne: SKScene {
     
     override func didMove(to view: SKView) {

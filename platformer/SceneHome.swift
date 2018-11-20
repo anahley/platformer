@@ -11,15 +11,13 @@ import GameplayKit
 
 class SceneHome: SKScene {
     
-    var button: SKNode! = nil
+    var button = SKSpriteNode(imageNamed: "playButton")
     let gameTitle = SKLabelNode(fontNamed: "Arial-BoldMT")
     
     func createButton() {
         
-        button = SKSpriteNode(imageNamed: "playButton")
         button.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
         addChild(button)
-        
         
     }
     
