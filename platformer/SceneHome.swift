@@ -35,8 +35,27 @@ class SceneHome: SKScene {
         createButton()
         addTitle()
         
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        // 1 - Choose one of the touches to work with
         
+        guard let touch = touches.first else {
+            return
+        }
         
+        let touchLocation = touch.location(in: self)
+        
+        //check if touch is within button range
+        if(button.contains(touchLocation)){
+            //it is!!!!
+            //change scene to game (SceneOne)
+            let scene = SceneOne(size: (view?.bounds.size)!) // I dont know what the ? and ! do, but it works
+            view?.presentScene(scene)
+            
+        } else {
+            //ignore
+        }
     }
     
     override func update(_ currentTime: TimeInterval) {
