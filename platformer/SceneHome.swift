@@ -50,8 +50,11 @@ class SceneHome: SKScene {
         if(button.contains(touchLocation)){
             //it is!!!!
             //change scene to game (SceneOne)
-            let scene = SceneOne(size: (view?.bounds.size)!) // I dont know what the ? and ! do, but it works
-            view?.presentScene(scene)
+            if let scene = SKScene(fileNamed:"SceneOne") {
+                let skView = self.view!
+                //setup your scene here
+                skView.presentScene(scene)
+            }
             
         } else {
             //ignore
