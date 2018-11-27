@@ -51,11 +51,9 @@ class SceneHome: SKScene {
             //it is!!!!
             //change scene to game (SceneOne)
             if let scene = SKScene(fileNamed:"SceneOne") {
-                let skView = self.view!
                 //setup your scene here
-                skView.presentScene(scene)
+                view!.presentScene(scene)
             }
-            
         } else {
             //ignore
         }

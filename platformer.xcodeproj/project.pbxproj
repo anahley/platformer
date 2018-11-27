@@ -8,25 +8,25 @@
 
 /* Begin PBXBuildFile section */
 		0606F21021A32A38001725FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0606F20F21A32A38001725FD /* AppDelegate.swift */; };
-		0606F21621A32A38001725FD /* SceneOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0606F21521A32A38001725FD /* SceneOne.swift */; };
 		0606F21821A32A38001725FD /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0606F21721A32A38001725FD /* GameViewController.swift */; };
 		0606F21B21A32A38001725FD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0606F21921A32A38001725FD /* Main.storyboard */; };
 		0606F21D21A32A3D001725FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0606F21C21A32A3D001725FD /* Assets.xcassets */; };
 		0606F22021A32A3D001725FD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0606F21E21A32A3D001725FD /* LaunchScreen.storyboard */; };
-		06FA98B621A486D40074AE44 /* SceneOne.sks in Resources */ = {isa = PBXBuildFile; fileRef = 06FA98B521A486D40074AE44 /* SceneOne.sks */; };
+		063B5D4921ADBA3C0018BB06 /* SceneOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063B5D4821ADBA3C0018BB06 /* SceneOne.swift */; };
+		063B5D4D21ADBCF90018BB06 /* SceneOne.sks in Resources */ = {isa = PBXBuildFile; fileRef = 063B5D4C21ADBCF90018BB06 /* SceneOne.sks */; };
 		8FB082A121A335A3001D5334 /* SceneHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB082A021A335A3001D5334 /* SceneHome.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0606F20C21A32A38001725FD /* platformer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = platformer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0606F20F21A32A38001725FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0606F21521A32A38001725FD /* SceneOne.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneOne.swift; sourceTree = "<group>"; };
 		0606F21721A32A38001725FD /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		0606F21A21A32A38001725FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0606F21C21A32A3D001725FD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0606F21F21A32A3D001725FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0606F22121A32A3D001725FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		06FA98B521A486D40074AE44 /* SceneOne.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SceneOne.sks; sourceTree = "<group>"; };
+		063B5D4821ADBA3C0018BB06 /* SceneOne.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneOne.swift; sourceTree = "<group>"; };
+		063B5D4C21ADBCF90018BB06 /* SceneOne.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SceneOne.sks; sourceTree = "<group>"; };
 		8FB082A021A335A3001D5334 /* SceneHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneHome.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -60,13 +60,13 @@
 		0606F20E21A32A38001725FD /* platformer */ = {
 			isa = PBXGroup;
 			children = (
-				06FA98B521A486D40074AE44 /* SceneOne.sks */,
+				063B5D4C21ADBCF90018BB06 /* SceneOne.sks */,
+				063B5D4821ADBA3C0018BB06 /* SceneOne.swift */,
 				0606F20F21A32A38001725FD /* AppDelegate.swift */,
-				0606F21521A32A38001725FD /* SceneOne.swift */,
 				8FB082A021A335A3001D5334 /* SceneHome.swift */,
 				0606F21721A32A38001725FD /* GameViewController.swift */,
-				0606F21921A32A38001725FD /* Main.storyboard */,
 				0606F21C21A32A3D001725FD /* Assets.xcassets */,
+				0606F21921A32A38001725FD /* Main.storyboard */,
 				0606F21E21A32A3D001725FD /* LaunchScreen.storyboard */,
 				0606F22121A32A3D001725FD /* Info.plist */,
 			);
@@ -131,10 +131,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				06FA98B621A486D40074AE44 /* SceneOne.sks in Resources */,
 				0606F21B21A32A38001725FD /* Main.storyboard in Resources */,
 				0606F21D21A32A3D001725FD /* Assets.xcassets in Resources */,
 				0606F22021A32A3D001725FD /* LaunchScreen.storyboard in Resources */,
+				063B5D4D21ADBCF90018BB06 /* SceneOne.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,8 +145,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0606F21621A32A38001725FD /* SceneOne.swift in Sources */,
 				8FB082A121A335A3001D5334 /* SceneHome.swift in Sources */,
+				063B5D4921ADBA3C0018BB06 /* SceneOne.swift in Sources */,
 				0606F21821A32A38001725FD /* GameViewController.swift in Sources */,
 				0606F21021A32A38001725FD /* AppDelegate.swift in Sources */,
 			);
