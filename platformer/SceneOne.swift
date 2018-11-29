@@ -14,15 +14,71 @@ import GameplayKit
  */
 class SceneOne: SKScene {
     
-    let Player = SKSpriteNode(imageNamed: "guy")
+    var touching = false
+    var Player = SKSpriteNode(imageNamed: "guy")
     
     override func didMove(to view: SKView) {
-        let cam = self.childNode(withName: "cam")
-        print(cam?.position as Any)
-        print("ndfjsk")
+        
+        Player = childNode(withName: "guy") as! SKSpriteNode
         //TODO: initialize the level assets: BG, player, platforms, etc.
     }
     
+    //when a touch is detected
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+       
+        guard let touch = touches.first else {
+            return
+        }
+        let tapPosition = touch.location(in: self)
+        
+        //IF the touch is in the bottom left quarter, JOYSTICK IS ENABLED
+        if ((tapPosition.x < 0) && (tapPosition.y < 0)) {
+        
+            let joystick = SKSpriteNode(imageNamed: "joystickCircle")
+            let handle = SKSpriteNode(imageNamed: "joystickStick")
+            joystick.name = "joystickCircle"
+            handle.name = "stick"
+            
+            joystick.scale(to: CGSize(width: 200, height: 200))
+            handle.scale(to: CGSize(width: 100, height: 100))
+            
+            joystick.position = tapPosition
+            joystick.zPosition = 10
+            handle.zPosition = 1
+            addChild(joystick)
+            joystick.addChild(handle)
+            
+        }
+    }
+    
+    //when the touch ends, remove the joystick
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        touching = false
+        
+        //if the joy stick is active, remove it and remove any movement on Player
+        if let joy = childNode(withName: "joystickCircle"){
+            joy.removeFromParent()
+        } //the joystick is not there, error or different touch?
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        guard let touch = touches.first else {
+            return
+        }
+        print("moved!")
+        
+        
+        if let joy = childNode(withName: "joystickCircle"){ //IF a joystick EXISTS
+            let tapPosition = touch.location(in: self)
+            
+            let innerPosition = touch.location(in: joy)
+            if joy.contains(tapPosition) { //IF the TOUCH is in the JOYSTICK CIRCLE
+                let handle = joy.childNode(withName: "stick")
+                handle?.position = innerPosition
+            }
+        }
+    }
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
