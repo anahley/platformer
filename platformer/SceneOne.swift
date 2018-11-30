@@ -39,8 +39,9 @@ class SceneOne: SKScene {
             joystick.name = "joystickCircle"
             handle.name = "stick"
             
+            
             joystick.scale(to: CGSize(width: 200, height: 200))
-            handle.scale(to: CGSize(width: 100, height: 100))
+            handle.scale(to: CGSize(width: 50, height: 50))
             
             joystick.position = tapPosition
             joystick.zPosition = 10
@@ -71,12 +72,11 @@ class SceneOne: SKScene {
         
         if let joy = childNode(withName: "joystickCircle"){ //IF a joystick EXISTS
             let tapPosition = touch.location(in: self)
+            let innerPosition = touch.location(in: joy) //IF the TOUCH is in the JOYSTICK CIRCLE
+            let handle = joy.childNode(withName: "stick")
+            handle?.position = innerPosition //the stick will just follow the tap
             
-            let innerPosition = touch.location(in: joy)
-            if joy.contains(tapPosition) { //IF the TOUCH is in the JOYSTICK CIRCLE
-                let handle = joy.childNode(withName: "stick")
-                handle?.position = innerPosition
-            }
+            
         }
     }
     
