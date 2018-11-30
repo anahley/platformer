@@ -8,6 +8,8 @@
 
 ## User settings
 xcuserdata/
+*.xcuserstate
+platformer.xcodeproj/project.xcworkspace/xcuserdata/90302556.xcuserdatad/UserInterfaceState.xcuserstate
 
 ## compatibility with Xcode 8 and earlier (ignoring not required starting Xcode 9)
 *.xcscmblueprint
@@ -35,5 +37,4 @@ DerivedData/
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 # End of https://www.gitignore.io/api/xcode
-*.xcuserstate
-platformer.xcodeproj/project.xcworkspace/xcuserdata/90302556.xcuserdatad/UserInterfaceState.xcuserstate
+
