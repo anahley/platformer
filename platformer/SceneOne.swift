@@ -15,7 +15,7 @@ import GameplayKit
 class SceneOne: SKScene {
     
     var neverJoyed = true
-    var haste = 100
+    var haste = 100.0
     var Player = SKSpriteNode(imageNamed: "guy")
     let joystick = SKSpriteNode(imageNamed: "joystickCircle")
     
@@ -123,14 +123,27 @@ class SceneOne: SKScene {
                 angInDegrees = 0
             }
             
+            let fixedAngInRadians = ((angInDegrees/180) * Double.pi)
+            
+            var percentX = abs(thatX / Double(joystick.size.width/2))
+            var percentY = abs(thatY / Double(joystick.size.width/2))
+            
+            if (percentX > 1.0) {
+                print(percentX)
+                percentX = 1.0
+            }
+            if (percentY > 1.0) {
+                percentY = 1.0
+            }
+            
+            let y = sin(fixedAngInRadians) * haste * percentY
+            let x = cos(fixedAngInRadians) * haste * percentX
             
             //let hypotenuse = sqrt(Double(Int(thatX)^2) + Double(Int(thatY)^2))
             
             //let radius = Double(joystick.size.width/2)
             
-            
-            
-            //Player.physicsBody?.velocity = CGVector(dx: speed*percentX, dy: speed*percentY)
+            Player.physicsBody?.velocity = CGVector(dx: x, dy: y)
         }
     }
 }
