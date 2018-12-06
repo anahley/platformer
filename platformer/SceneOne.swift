@@ -13,7 +13,7 @@ import GameplayKit
  Scene for level one
  */
 class SceneOne: SKScene {
-    
+
     var neverJoyed = true
     var haste = 100.0
     var Player = SKSpriteNode(imageNamed: "guy")
@@ -31,7 +31,8 @@ class SceneOne: SKScene {
         guard let touch = touches.first else {
             return
         }
-        let tapPosition = touch.location(in: self)
+        
+        let tapPosition = touch.location(in: camera!)
         
         //IF the touch is in the bottom left quarter, JOYSTICK IS ENABLED
         if ((tapPosition.x < 0) && (tapPosition.y < 0)) {
@@ -40,11 +41,14 @@ class SceneOne: SKScene {
             joystick.name = "joystickCircle"
             handle.name = "stick"
             
-            addChild(joystick)
+            camera?.addChild(joystick)
+            
             if (neverJoyed) {
                 joystick.addChild(handle)
                 neverJoyed = false
             }
+            
+            
             joystick.size = CGSize(width: size.width/6, height: size.width/6)
             handle.size = CGSize(width: joystick.size.width/3, height: joystick.size.width/3)
             
@@ -64,7 +68,7 @@ class SceneOne: SKScene {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         //if the joy stick is active, remove it and remove any movement on Player
-        if let joy = childNode(withName: "joystickCircle"){
+        if let joy = camera?.childNode(withName: "joystickCircle"){
             //joy.removeAllChildren()
             joy.childNode(withName: "stick")?.position = CGPoint(x: 0, y: 0)
             joy.removeFromParent()
@@ -78,7 +82,7 @@ class SceneOne: SKScene {
             return
         }
         
-        if let joy = childNode(withName: "joystickCircle"){ //IF a joystick EXISTS
+        if let joy = camera?.childNode(withName: "joystickCircle"){ //IF a joystick EXISTS
             let innerPosition = touch.location(in: joy) //IF the TOUCH is in the JOYSTICK CIRCLE
             let handle = joy.childNode(withName: "stick")
             handle?.position = innerPosition //the stick will just follow the tap
@@ -89,7 +93,7 @@ class SceneOne: SKScene {
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         
-        if let joy = childNode(withName: "joystickCircle"){ //IF a joystick EXISTS
+        if let joy = camera?.childNode(withName: "joystickCircle"){ //IF a joystick EXISTS
             let handle = joy.childNode(withName: "stick")
             //every frame, we will set the character's velocity to move according to the stick's position
             
@@ -129,21 +133,18 @@ class SceneOne: SKScene {
             var percentY = abs(thatY / Double(joystick.size.width/2))
             
             if (percentX > 1.0) {
-                print(percentX)
                 percentX = 1.0
             }
             if (percentY > 1.0) {
                 percentY = 1.0
             }
             
-            let y = sin(fixedAngInRadians) * haste * percentY
-            let x = cos(fixedAngInRadians) * haste * percentX
-            
-            //let hypotenuse = sqrt(Double(Int(thatX)^2) + Double(Int(thatY)^2))
-            
-            //let radius = Double(joystick.size.width/2)
-            
+            //Primitive movement------------------------------------------
+             let y = sin(fixedAngInRadians) * haste * percentY
+             let x = cos(fixedAngInRadians) * haste * percentX
             Player.physicsBody?.velocity = CGVector(dx: x, dy: y)
         }
+        
+        camera?.position.x = Player.position.x
     }
 }
