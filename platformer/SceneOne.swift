@@ -139,12 +139,24 @@ class SceneOne: SKScene {
                 percentY = 1.0
             }
             
+            movement(angInRads: fixedAngInRadians,speed: haste)
+            
             //Primitive movement------------------------------------------
-             let y = sin(fixedAngInRadians) * haste * percentY
-             let x = cos(fixedAngInRadians) * haste * percentX
-            Player.physicsBody?.velocity = CGVector(dx: x, dy: y)
+                let y = sin(fixedAngInRadians) * haste * percentY
+                let x = cos(fixedAngInRadians) * haste * percentX
+                Player.physicsBody?.velocity = CGVector(dx: x, dy: y)
+ 
         }
         
+        
         camera?.position.x = Player.position.x
+    }
+    
+    
+    /**
+     When this function is called, the character will either move left, right, crouch, or jump.
+     */
+    func movement(angInRads: Double, speed: Double) {
+        
     }
 }
