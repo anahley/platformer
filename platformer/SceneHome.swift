@@ -17,7 +17,7 @@ class SceneHome: SKScene {
     
     func createButton() {
         
-        button.position = CGPoint(x: size.width * 0.5, y: size.height * 0.45)
+        button.position = CGPoint(x: size.width * 0.505, y: size.height * 0.73)
         addChild(button)
         
     }
@@ -44,14 +44,30 @@ class SceneHome: SKScene {
         
     }
     
+    
     func addTitle () {
         
         gameTitle.text = "OBLIVION"
-        gameTitle.position = CGPoint(x: size.width * 0.5, y: size.height * 0.6)
+        gameTitle.position = CGPoint(x: size.width * 0.5, y: size.height * 0.85)
         gameTitle.fontSize = 0.1 * size.width
         gameTitle.fontColor = SKColor.white
         addChild(gameTitle)
         
+    }
+    
+    func addBackground () {
+        
+        let background = SKSpriteNode(imageNamed: "mainscreenBackground")
+        
+        background.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
+        
+        background.zPosition = -2
+        
+        background.setScale(0.5)
+        
+        addChild(background)
+        
+        print(background.position)
     }
     
     override func didMove(to view: SKView) {
@@ -60,7 +76,9 @@ class SceneHome: SKScene {
         
         addTitle()
         
-        run(SKAction.repeatForever(SKAction.sequence([SKAction.run(initParticles), SKAction.wait(forDuration: 0.3)])))
+        addBackground()
+        
+        run(SKAction.repeatForever(SKAction.sequence([SKAction.run(initParticles), SKAction.wait(forDuration: 0.15)])))
         
         self.backgroundColor = UIColor(hue: 0, saturation: 0, brightness: 0.0, alpha: 1)
         
