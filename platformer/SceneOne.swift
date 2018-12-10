@@ -14,8 +14,11 @@ import GameplayKit
  */
 class SceneOne: SKScene {
 
+    
+    var jumping = false
     var neverJoyed = true
-    var haste = 100.0
+    var jumpPower = 500000.0
+    var haste = 500000.0
     var Player = SKSpriteNode(imageNamed: "guy")
     let joystick = SKSpriteNode(imageNamed: "joystickCircle")
     
@@ -72,7 +75,8 @@ class SceneOne: SKScene {
             //joy.removeAllChildren()
             joy.childNode(withName: "stick")?.position = CGPoint(x: 0, y: 0)
             joy.removeFromParent()
-            Player.physicsBody?.velocity = CGVector(dx:0,dy:0)
+            jumping = false
+            //Player.physicsBody?.velocity = CGVector(dx:0,dy:0)
         } //the joystick is not there, error or different touch?
     }
     
@@ -139,13 +143,9 @@ class SceneOne: SKScene {
                 percentY = 1.0
             }
             
-            movement(angInRads: fixedAngInRadians,speed: haste)
+            movement(angInRads: fixedAngInRadians, percentX: percentX, percentY: percentY)
             
             //Primitive movement------------------------------------------
-                let y = sin(fixedAngInRadians) * haste * percentY
-                let x = cos(fixedAngInRadians) * haste * percentX
-                Player.physicsBody?.velocity = CGVector(dx: x, dy: y)
- 
         }
         
         
@@ -156,7 +156,28 @@ class SceneOne: SKScene {
     /**
      When this function is called, the character will either move left, right, crouch, or jump.
      */
-    func movement(angInRads: Double, speed: Double) {
+    func movement(angInRads: Double, percentX: Double, percentY: Double) {
+        var force = CGVector(dx: 0, dy: 0)
+        var y = sin(angInRads) * jumpPower
+        var x = cos(angInRads) * haste * percentX
         
+        let hypoUnitCircle = sqrt((percentX * percentX) + (percentY * percentY))
+        
+        if (!jumping) {
+        
+            if (angInRads > Double.pi/4.0 && angInRads < 3 * Double.pi/4.0 && hypoUnitCircle > 0.85) { //JUMP
+
+                jumping = true
+                
+                force = CGVector(dx: x, dy: y)
+            } else if (angInRads > 5 * Double.pi/4.0 && angInRads < 7 * Double.pi/4.0 && percentY > 0.85) { //CROUCH
+                let y = sin(angInRads) * -jumpPower
+                let x = cos(angInRads) * haste * percentX
+                force = CGVector(dx: x, dy: y)
+            }
+            
+        }
+        
+        Player.physicsBody?.applyForce(force)
     }
 }
