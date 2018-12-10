@@ -13,9 +13,12 @@ import GameplayKit
  Scene for level one
  */
 class SceneOne: SKScene {
+
     
+    var jumping = false
     var neverJoyed = true
-    var haste = 100
+    var jumpPower = 500000.0
+    var haste = 500000.0
     var Player = SKSpriteNode(imageNamed: "guy")
     let joystick = SKSpriteNode(imageNamed: "joystickCircle")
     
@@ -31,7 +34,8 @@ class SceneOne: SKScene {
         guard let touch = touches.first else {
             return
         }
-        let tapPosition = touch.location(in: self)
+        
+        let tapPosition = touch.location(in: camera!)
         
         //IF the touch is in the bottom left quarter, JOYSTICK IS ENABLED
         if ((tapPosition.x < 0) && (tapPosition.y < 0)) {
@@ -40,11 +44,14 @@ class SceneOne: SKScene {
             joystick.name = "joystickCircle"
             handle.name = "stick"
             
-            addChild(joystick)
+            camera?.addChild(joystick)
+            
             if (neverJoyed) {
                 joystick.addChild(handle)
                 neverJoyed = false
             }
+            
+            
             joystick.size = CGSize(width: size.width/6, height: size.width/6)
             handle.size = CGSize(width: joystick.size.width/3, height: joystick.size.width/3)
             
@@ -64,11 +71,12 @@ class SceneOne: SKScene {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         //if the joy stick is active, remove it and remove any movement on Player
-        if let joy = childNode(withName: "joystickCircle"){
+        if let joy = camera?.childNode(withName: "joystickCircle"){
             //joy.removeAllChildren()
             joy.childNode(withName: "stick")?.position = CGPoint(x: 0, y: 0)
             joy.removeFromParent()
-            Player.physicsBody?.velocity = CGVector(dx:0,dy:0)
+            jumping = false
+            //Player.physicsBody?.velocity = CGVector(dx:0,dy:0)
         } //the joystick is not there, error or different touch?
     }
     
@@ -78,7 +86,7 @@ class SceneOne: SKScene {
             return
         }
         
-        if let joy = childNode(withName: "joystickCircle"){ //IF a joystick EXISTS
+        if let joy = camera?.childNode(withName: "joystickCircle"){ //IF a joystick EXISTS
             let innerPosition = touch.location(in: joy) //IF the TOUCH is in the JOYSTICK CIRCLE
             let handle = joy.childNode(withName: "stick")
             handle?.position = innerPosition //the stick will just follow the tap
@@ -89,7 +97,7 @@ class SceneOne: SKScene {
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         
-        if let joy = childNode(withName: "joystickCircle"){ //IF a joystick EXISTS
+        if let joy = camera?.childNode(withName: "joystickCircle"){ //IF a joystick EXISTS
             let handle = joy.childNode(withName: "stick")
             //every frame, we will set the character's velocity to move according to the stick's position
             
@@ -123,14 +131,53 @@ class SceneOne: SKScene {
                 angInDegrees = 0
             }
             
+            let fixedAngInRadians = ((angInDegrees/180) * Double.pi)
             
-            //let hypotenuse = sqrt(Double(Int(thatX)^2) + Double(Int(thatY)^2))
+            var percentX = abs(thatX / Double(joystick.size.width/2))
+            var percentY = abs(thatY / Double(joystick.size.width/2))
             
-            //let radius = Double(joystick.size.width/2)
+            if (percentX > 1.0) {
+                percentX = 1.0
+            }
+            if (percentY > 1.0) {
+                percentY = 1.0
+            }
             
+            movement(angInRads: fixedAngInRadians, percentX: percentX, percentY: percentY)
             
-            
-            //Player.physicsBody?.velocity = CGVector(dx: speed*percentX, dy: speed*percentY)
+            //Primitive movement------------------------------------------
         }
+        
+        
+        camera?.position.x = Player.position.x
+    }
+    
+    
+    /**
+     When this function is called, the character will either move left, right, crouch, or jump.
+     */
+    func movement(angInRads: Double, percentX: Double, percentY: Double) {
+        var force = CGVector(dx: 0, dy: 0)
+        var y = sin(angInRads) * jumpPower
+        var x = cos(angInRads) * haste * percentX
+        
+        let hypoUnitCircle = sqrt((percentX * percentX) + (percentY * percentY))
+        
+        if (!jumping) {
+        
+            if (angInRads > Double.pi/4.0 && angInRads < 3 * Double.pi/4.0 && hypoUnitCircle > 0.85) { //JUMP
+
+                jumping = true
+                
+                force = CGVector(dx: x, dy: y)
+            } else if (angInRads > 5 * Double.pi/4.0 && angInRads < 7 * Double.pi/4.0 && percentY > 0.85) { //CROUCH
+                let y = sin(angInRads) * -jumpPower
+                let x = cos(angInRads) * haste * percentX
+                force = CGVector(dx: x, dy: y)
+            }
+            
+        }
+        
+        Player.physicsBody?.applyForce(force)
     }
 }
