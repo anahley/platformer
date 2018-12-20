@@ -9,22 +9,37 @@
 import SpriteKit
 import GameplayKit
 
+struct PhysicsCategory {
+    static let none      : UInt32 = 0
+    static let all       : UInt32 = UInt32.max
+    static let ground: UInt32 = 0b1
+    static let player: UInt32 = 0b10 //1
+    static let enemy   : UInt32 = 0b11       // 2
+    static let bullet: UInt32 = 0b100      // 3
+    
+}
+
 /**
  Scene for level one
  */
 class SceneOne: SKScene {
 
     
-    var jumping = false
+    var airborne = false
     var neverJoyed = true
-    var jumpPower = 500000.0
-    var haste = 500000.0
-    var Player = SKSpriteNode(imageNamed: "guy")
+    var inControl = true
+    var jumpPower = 1500000.0
+    var maxSpeed = 1000.0
+    var Player = SKSpriteNode(imageNamed: "guyOriginal")
     let joystick = SKSpriteNode(imageNamed: "joystickCircle")
     
     override func didMove(to view: SKView) {
         
+        physicsWorld.contactDelegate = self
         Player = childNode(withName: "guy") as! SKSpriteNode
+        Player.physicsBody?.categoryBitMask = PhysicsCategory.player
+        Player.physicsBody?.contactTestBitMask = PhysicsCategory.ground
+        
         //TODO: initialize the level assets: BG, player, platforms, etc.
     }
     
@@ -75,7 +90,6 @@ class SceneOne: SKScene {
             //joy.removeAllChildren()
             joy.childNode(withName: "stick")?.position = CGPoint(x: 0, y: 0)
             joy.removeFromParent()
-            jumping = false
             //Player.physicsBody?.velocity = CGVector(dx:0,dy:0)
         } //the joystick is not there, error or different touch?
     }
@@ -157,27 +171,56 @@ class SceneOne: SKScene {
      When this function is called, the character will either move left, right, crouch, or jump.
      */
     func movement(angInRads: Double, percentX: Double, percentY: Double) {
-        var force = CGVector(dx: 0, dy: 0)
-        var y = sin(angInRads) * jumpPower
-        var x = cos(angInRads) * haste * percentX
         
+        //the speed which the player is looking for based on the character's max speed and where the joystick is
+        let speedXToReach = CGFloat(cos(angInRads) * maxSpeed * percentX)
+        let currentSpeedX = Player.physicsBody?.velocity.dx
+        //how close the joystick is to the edge, 1.0 = max 0.0 = center
         let hypoUnitCircle = sqrt((percentX * percentX) + (percentY * percentY))
         
-        if (!jumping) {
-        
-            if (angInRads > Double.pi/4.0 && angInRads < 3 * Double.pi/4.0 && hypoUnitCircle > 0.85) { //JUMP
-
-                jumping = true
-                
-                force = CGVector(dx: x, dy: y)
-            } else if (angInRads > 5 * Double.pi/4.0 && angInRads < 7 * Double.pi/4.0 && percentY > 0.85) { //CROUCH
-                let y = sin(angInRads) * -jumpPower
-                let x = cos(angInRads) * haste * percentX
-                force = CGVector(dx: x, dy: y)
+        //if they are IN CONTROL
+        if (inControl) {
+            if (angInRads > Double.pi/4 && angInRads < 3 * Double.pi/4 && hypoUnitCircle > 0.85 && !airborne) { //JUMP
+                let force = CGVector(dx: Double(speedXToReach), dy: jumpPower)
+                Player.physicsBody?.applyForce(force)
+                airborne = true
             }
-            
+            if (angInRads > 5 * Double.pi/4 && angInRads < 7 * Double.pi/4 && percentY > 0.85) { //CROUCH
+                //what?
+            } else if (angInRads <  (Double.pi/4) || angInRads > (7 * Double.pi/4)) { //MOVE RIGHT
+                Player.physicsBody?.velocity.dx = ((speedXToReach - currentSpeedX!) / 3)
+                //Player.physicsBody?.velocity.dy = 10
+            } else {
+                Player.physicsBody?.velocity.dx = ((speedXToReach - currentSpeedX!) / 3)
+                //Player.physicsBody?.velocity.dy = 10
+            }
         }
         
-        Player.physicsBody?.applyForce(force)
     }
+}
+
+extension SceneOne: SKPhysicsContactDelegate {
+
+    func didBegin(_ contact: SKPhysicsContact) {
+        
+        var firstBody: SKPhysicsBody
+        var secondBody: SKPhysicsBody
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+            firstBody = contact.bodyA
+            secondBody = contact.bodyB
+        } else {
+            firstBody = contact.bodyB
+            secondBody = contact.bodyA
+        }
+        
+        
+        if (firstBody.categoryBitMask == PhysicsCategory.ground && secondBody.categoryBitMask == PhysicsCategory.player) {
+            let groundPos = firstBody.node?.position.y
+            let playerpos = secondBody.node?.position.y
+            if (Double(groundPos!) < Double(playerpos!)){
+                airborne = false
+            }
+        }
+    }
+    
 }

@@ -38,7 +38,6 @@ class SceneHome: SKScene {
         
         addChild(particle)
         
-        print(particle.position)
         
         particle.run(SKAction.sequence([fall, fallDone]))
         
@@ -67,7 +66,6 @@ class SceneHome: SKScene {
         
         addChild(background)
         
-        print(background.position)
     }
     
     override func didMove(to view: SKView) {
