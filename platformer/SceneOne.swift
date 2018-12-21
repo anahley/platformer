@@ -25,7 +25,7 @@ struct PhysicsCategory {
 class SceneOne: SKScene {
 
     
-    var airborne = false
+    var airborne = true
     var neverJoyed = true
     var inControl = true
     var jumpPower = 1500000.0
@@ -188,10 +188,10 @@ class SceneOne: SKScene {
             if (angInRads > 5 * Double.pi/4 && angInRads < 7 * Double.pi/4 && percentY > 0.85) { //CROUCH
                 //what?
             } else if (angInRads <  (Double.pi/4) || angInRads > (7 * Double.pi/4)) { //MOVE RIGHT
-                Player.physicsBody?.velocity.dx = ((speedXToReach - currentSpeedX!) / 3)
+                Player.physicsBody?.velocity.dx += ((speedXToReach - currentSpeedX!) / 4)
                 //Player.physicsBody?.velocity.dy = 10
             } else {
-                Player.physicsBody?.velocity.dx = ((speedXToReach - currentSpeedX!) / 3)
+                Player.physicsBody?.velocity.dx += ((speedXToReach - currentSpeedX!) / 4)
                 //Player.physicsBody?.velocity.dy = 10
             }
         }
