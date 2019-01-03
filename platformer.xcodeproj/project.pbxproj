@@ -15,6 +15,8 @@
 		063B5D4921ADBA3C0018BB06 /* SceneOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063B5D4821ADBA3C0018BB06 /* SceneOne.swift */; };
 		063B5D4D21ADBCF90018BB06 /* SceneOne.sks in Resources */ = {isa = PBXBuildFile; fileRef = 063B5D4C21ADBCF90018BB06 /* SceneOne.sks */; };
 		069704D221CC0D9D004DE8DF /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069704D121CC0D9D004DE8DF /* Player.swift */; };
+		069704D421CD6345004DE8DF /* Cutscene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 069704D321CD6345004DE8DF /* Cutscene.sks */; };
+		069704D621CD6522004DE8DF /* Cutscene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069704D521CD6522004DE8DF /* Cutscene.swift */; };
 		8FB082A121A335A3001D5334 /* SceneHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB082A021A335A3001D5334 /* SceneHome.swift */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +31,8 @@
 		063B5D4821ADBA3C0018BB06 /* SceneOne.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneOne.swift; sourceTree = "<group>"; };
 		063B5D4C21ADBCF90018BB06 /* SceneOne.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SceneOne.sks; sourceTree = "<group>"; };
 		069704D121CC0D9D004DE8DF /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		069704D321CD6345004DE8DF /* Cutscene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Cutscene.sks; sourceTree = "<group>"; };
+		069704D521CD6522004DE8DF /* Cutscene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cutscene.swift; sourceTree = "<group>"; };
 		8FB082A021A335A3001D5334 /* SceneHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneHome.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -62,6 +66,8 @@
 		0606F20E21A32A38001725FD /* platformer */ = {
 			isa = PBXGroup;
 			children = (
+				069704D321CD6345004DE8DF /* Cutscene.sks */,
+				069704D521CD6522004DE8DF /* Cutscene.swift */,
 				063B5D4C21ADBCF90018BB06 /* SceneOne.sks */,
 				063B5D4821ADBA3C0018BB06 /* SceneOne.swift */,
 				069704D121CC0D9D004DE8DF /* Player.swift */,
@@ -137,6 +143,7 @@
 				0606F21B21A32A38001725FD /* Main.storyboard in Resources */,
 				0606F21D21A32A3D001725FD /* Assets.xcassets in Resources */,
 				0606F22021A32A3D001725FD /* LaunchScreen.storyboard in Resources */,
+				069704D421CD6345004DE8DF /* Cutscene.sks in Resources */,
 				063B5D4D21ADBCF90018BB06 /* SceneOne.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -151,6 +158,7 @@
 				8FB082A121A335A3001D5334 /* SceneHome.swift in Sources */,
 				063B5D4921ADBA3C0018BB06 /* SceneOne.swift in Sources */,
 				0606F21821A32A38001725FD /* GameViewController.swift in Sources */,
+				069704D621CD6522004DE8DF /* Cutscene.swift in Sources */,
 				069704D221CC0D9D004DE8DF /* Player.swift in Sources */,
 				0606F21021A32A38001725FD /* AppDelegate.swift in Sources */,
 			);

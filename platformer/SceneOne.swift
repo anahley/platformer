@@ -29,8 +29,8 @@ class SceneOne: SKScene {
     var neverJoyed = true
     var inControl = true
     var jumpPower = 1500000.0
-    var maxSpeed = 1000.0
-    var Player = SKSpriteNode(imageNamed: "guyOriginal")
+    var maxSpeed = 666.666
+    var Player = SKSpriteNode(imageNamed: "guyoriginal")
     let joystick = SKSpriteNode(imageNamed: "joystickCircle")
     
     override func didMove(to view: SKView) {
@@ -55,7 +55,7 @@ class SceneOne: SKScene {
         //IF the touch is in the bottom left quarter, JOYSTICK IS ENABLED
         if ((tapPosition.x < 0) && (tapPosition.y < 0)) {
         
-            let handle = SKSpriteNode(imageNamed: "joystickStick")
+            let handle = SKSpriteNode(imageNamed: "JoystickStick")
             joystick.name = "joystickCircle"
             handle.name = "stick"
             
@@ -163,7 +163,7 @@ class SceneOne: SKScene {
         }
         
         
-        camera?.position.x = Player.position.x
+       // camera?.position.x = Player.position.x
     }
     
     

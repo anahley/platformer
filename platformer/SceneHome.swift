@@ -96,9 +96,10 @@ class SceneHome: SKScene {
         if(button.contains(touchLocation)){
             //it is!!!!
             //change scene to game (SceneOne)
-            if let scene = SKScene(fileNamed:"SceneOne") {
+            if let scene = SKScene(fileNamed:"Cutscene") {
                 //setup your scene here
-                view!.presentScene(scene)
+                let trans = SKTransition.fade(withDuration: 1)
+                view!.presentScene(scene,transition: trans)
             }
         } else {
             //ignore
