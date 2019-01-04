@@ -12,10 +12,12 @@ import GameplayKit
 struct PhysicsCategory {
     static let none      : UInt32 = 0
     static let all       : UInt32 = UInt32.max
-    static let ground: UInt32 = 0b1
-    static let player: UInt32 = 0b10 //1
-    static let enemy   : UInt32 = 0b11       // 2
-    static let bullet: UInt32 = 0b100      // 3
+    static let ground: UInt32 = 0b1 //1
+    static let player: UInt32 = 0b10 //2
+    static let enemy   : UInt32 = 0b11       // 3
+    static let bullet: UInt32 = 0b100      // 4
+    static let camBounds: UInt32 = 0b101 //5
+    static let cam: UInt32 = 0b110 //6
     
 }
 
@@ -162,8 +164,9 @@ class SceneOne: SKScene {
             //Primitive movement------------------------------------------
         }
         
-        
-       // camera?.position.x = Player.position.x
+        let camXMovement = Double(Player.position.x) - Double((camera?.position.x)!)
+        let camYMovement = Double(Player.position.y) - Double((camera?.position.y)!)
+        camera?.physicsBody?.velocity = CGVector(dx: camXMovement, dy: camYMovement)
     }
     
     
