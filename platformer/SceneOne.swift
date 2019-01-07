@@ -164,9 +164,7 @@ class SceneOne: SKScene {
             //Primitive movement------------------------------------------
         }
         
-        let camXMovement = Double(Player.position.x) - Double((camera?.position.x)!)
-        let camYMovement = Double(Player.position.y) - Double((camera?.position.y)!)
-        camera?.physicsBody?.velocity = CGVector(dx: camXMovement, dy: camYMovement)
+        
     }
     
     
@@ -200,6 +198,8 @@ class SceneOne: SKScene {
         }
         
     }
+    
+    
 }
 
 extension SceneOne: SKPhysicsContactDelegate {
