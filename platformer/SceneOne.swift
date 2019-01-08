@@ -14,10 +14,8 @@ struct PhysicsCategory {
     static let all       : UInt32 = UInt32.max
     static let ground: UInt32 = 0b1 //1
     static let player: UInt32 = 0b10 //2
-    static let enemy   : UInt32 = 0b11       // 3
-    static let bullet: UInt32 = 0b100      // 4
-    static let camBounds: UInt32 = 0b101 //5
-    static let cam: UInt32 = 0b110 //6
+    static let camBounds: UInt32 = 0b100 //4
+    static let object: UInt32 = 0b1000 //8
     
 }
 
@@ -222,6 +220,13 @@ extension SceneOne: SKPhysicsContactDelegate {
             let playerpos = secondBody.node?.position.y
             if (Double(groundPos!) < Double(playerpos!)){
                 airborne = false
+            }
+        }
+        if(secondBody.categoryBitMask == PhysicsCategory.camBounds) {
+            if(secondBody.node!.name == "camHitboxRight") {
+                camera?.position.x += 200
+            } else {
+                
             }
         }
     }
