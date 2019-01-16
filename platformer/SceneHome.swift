@@ -90,7 +90,6 @@ class SceneHome: SKScene {
         }
         
         let touchLocation = touch.location(in: self)
-        print(touchLocation)
         
         //check if touch is within button range
         if(button.contains(touchLocation)){
