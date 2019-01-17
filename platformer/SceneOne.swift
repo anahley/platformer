@@ -14,10 +14,8 @@ struct PhysicsCategory {
     static let all       : UInt32 = UInt32.max
     static let ground: UInt32 = 0b1 //1
     static let player: UInt32 = 0b10 //2
-    static let enemy   : UInt32 = 0b11       // 3
-    static let bullet: UInt32 = 0b100      // 4
-    static let camBounds: UInt32 = 0b101 //5
-    static let cam: UInt32 = 0b110 //6
+    static let camBounds: UInt32 = 0b100 //4
+    static let object: UInt32 = 0b1000 //8
     
 }
 
@@ -30,6 +28,8 @@ class SceneOne: SKScene {
     var airborne = true
     var neverJoyed = true
     var inControl = true
+    var camPos = -1
+    var camCooldown = true
     var jumpPower = 1500000.0
     var maxSpeed = 666.666
     var Player = SKSpriteNode(imageNamed: "guywalking1")
@@ -215,10 +215,10 @@ class SceneOne: SKScene {
                 //what?
             } else if (angInRads <  (Double.pi/4) || angInRads > (7 * Double.pi/4)) { //MOVE RIGHT
                 Player.physicsBody?.velocity.dx += ((speedXToReach - currentSpeedX!) / 4)
-                //Player.physicsBody?.velocity.dy = 10
-            } else {
+                Player.physicsBody?.velocity.dy = 1
+            } else { //MOVE LEFT
                 Player.physicsBody?.velocity.dx += ((speedXToReach - currentSpeedX!) / 4)
-                //Player.physicsBody?.velocity.dy = 10
+                Player.physicsBody?.velocity.dy = 1
             }
         }
         
@@ -257,6 +257,40 @@ extension SceneOne: SKPhysicsContactDelegate {
                 airborne = false
             }
         }
+        if(secondBody.categoryBitMask == PhysicsCategory.camBounds) {
+            if(camCooldown) { //if the camera is ready
+                camCooldown = false
+                if(secondBody.node!.name == "camHitboxRight") { // camera moves to next node to the right
+                    let nodeToTheRight = ("node" + String(camPos + 1)) //the node to the right
+                    let node = (childNode(withName: nodeToTheRight)?.position.x)
+                    if (node != nil) { //if there is a node to the right, change cameras
+                        camPos += 1
+                        let moveToThis = ("node" + String(camPos))
+                        camera?.position.x = (childNode(withName: moveToThis)?.position.x)!//368
+                        
+                        let point = CGPoint(x: ((camera?.position.x)! + 370), y: 0.0)
+                        let leftPoint = CGPoint(x: ((camera?.position.x)! - 370), y: 0.0)
+                        childNode(withName: "camHitboxLeft")?.run((SKAction.move(to: leftPoint, duration: 0.5)))
+                        secondBody.node?.run((SKAction.move(to: point, duration: 0.5)))
+                    }
+                } else { //camera moves to the node to the left
+                    let nodeToTheRight = ("node" + String(camPos - 1)) //the node to the right
+                    let node = (childNode(withName: nodeToTheRight)?.position.x)
+                    if (node != nil) { //if there is a node to the right, change cameras
+                        camPos -= 1
+                        let moveToThis = ("node" + String(camPos))
+                        camera?.position.x = (childNode(withName: moveToThis)?.position.x)!
+                        
+                        let point = CGPoint(x: ((camera?.position.x)! - 370), y: 0.0)
+                        let rightPoint = CGPoint(x: ((camera?.position.x)! + 370), y: 0.0)
+                        childNode(withName: "camHitboxRight")?.run((SKAction.move(to: rightPoint, duration: 0.5)))
+                        secondBody.node?.run((SKAction.move(to: point, duration: 0.5)))
+                    }
+                }
+                run(SKAction.sequence([SKAction.wait(forDuration: 1),SKAction.run { //puts the camera on cooldown as to not spam camera change
+                    self.camCooldown = true
+                }]))
+            }
+        }
     }
-    
 }
