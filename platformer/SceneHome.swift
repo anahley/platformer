@@ -62,7 +62,9 @@ class SceneHome: SKScene {
         
         background.zPosition = -2
         
-        background.setScale(0.5)
+        background.size.width = 0.8 * size.width
+        
+        background.size.height = 1 * size.height
         
         addChild(background)
         
