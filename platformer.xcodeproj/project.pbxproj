@@ -17,6 +17,7 @@
 		069704D221CC0D9D004DE8DF /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069704D121CC0D9D004DE8DF /* Player.swift */; };
 		069704D421CD6345004DE8DF /* Cutscene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 069704D321CD6345004DE8DF /* Cutscene.sks */; };
 		069704D621CD6522004DE8DF /* Cutscene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069704D521CD6522004DE8DF /* Cutscene.swift */; };
+		8F6FA34B21E66AA700EAA1FA /* assets.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 8F6FA34A21E66AA700EAA1FA /* assets.atlas */; };
 		8FB082A121A335A3001D5334 /* SceneHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB082A021A335A3001D5334 /* SceneHome.swift */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +34,7 @@
 		069704D121CC0D9D004DE8DF /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		069704D321CD6345004DE8DF /* Cutscene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Cutscene.sks; sourceTree = "<group>"; };
 		069704D521CD6522004DE8DF /* Cutscene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cutscene.swift; sourceTree = "<group>"; };
+		8F6FA34A21E66AA700EAA1FA /* assets.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = assets.atlas; sourceTree = "<group>"; };
 		8FB082A021A335A3001D5334 /* SceneHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneHome.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -75,6 +77,7 @@
 				8FB082A021A335A3001D5334 /* SceneHome.swift */,
 				0606F21721A32A38001725FD /* GameViewController.swift */,
 				0606F21C21A32A3D001725FD /* Assets.xcassets */,
+				8F6FA34A21E66AA700EAA1FA /* assets.atlas */,
 				0606F21921A32A38001725FD /* Main.storyboard */,
 				0606F21E21A32A3D001725FD /* LaunchScreen.storyboard */,
 				0606F22121A32A3D001725FD /* Info.plist */,
@@ -142,6 +145,7 @@
 			files = (
 				0606F21B21A32A38001725FD /* Main.storyboard in Resources */,
 				0606F21D21A32A3D001725FD /* Assets.xcassets in Resources */,
+				8F6FA34B21E66AA700EAA1FA /* assets.atlas in Resources */,
 				0606F22021A32A3D001725FD /* LaunchScreen.storyboard in Resources */,
 				069704D421CD6345004DE8DF /* Cutscene.sks in Resources */,
 				063B5D4D21ADBCF90018BB06 /* SceneOne.sks in Resources */,

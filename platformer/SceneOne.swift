@@ -32,15 +32,18 @@ class SceneOne: SKScene {
     var camCooldown = true
     var jumpPower = 1500000.0
     var maxSpeed = 666.666
-    var Player = SKSpriteNode(imageNamed: "guyoriginal")
+    var Player = SKSpriteNode(imageNamed: "guywalking1")
     let joystick = SKSpriteNode(imageNamed: "joystickCircle")
-    
+    var TextureAtlas = SKTextureAtlas(named: "assets")
+    var TextureArray = [SKTexture]()
+
     override func didMove(to view: SKView) {
         
         physicsWorld.contactDelegate = self
         Player = childNode(withName: "guy") as! SKSpriteNode
         Player.physicsBody?.categoryBitMask = PhysicsCategory.player
         Player.physicsBody?.contactTestBitMask = PhysicsCategory.ground
+        
         
         //TODO: initialize the level assets: BG, player, platforms, etc.
     }
@@ -163,8 +166,30 @@ class SceneOne: SKScene {
             
             //Primitive movement------------------------------------------
         }
+        if airborne == false { //if you're not jumping
+            
+            if Player.physicsBody!.velocity.dx == 0  { 
+                animation()
+            }
+            
+            if Player.physicsBody!.velocity.dx < 0 {
+                if Player.xScale > 0 {
+                   Player.xScale = Player.xScale * -1
+                }
+            }
+            
+            if Player.physicsBody!.velocity.dx > 0 {
+                if Player.xScale < 0 {
+                    Player.xScale = Player.xScale * -1
+                }
+                
+            }
+            
+        }
         
-        
+        if airborne == true {
+            Player.run(SKAction.setTexture(SKTexture(imageNamed: "guyjump")))
+        }
     }
     
     
@@ -198,7 +223,15 @@ class SceneOne: SKScene {
         }
         
     }
-    
+
+    func animation() {
+        for i in 1...TextureAtlas.textureNames.count{
+            
+            var Name = "guywalking\(i).png"
+            TextureArray.append(SKTexture(imageNamed: Name))
+            Player.run(SKAction.repeatForever(SKAction.animate(with: TextureArray, timePerFrame: 0.3)))
+        }
+    }
     
 }
 
