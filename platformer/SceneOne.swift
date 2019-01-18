@@ -30,8 +30,8 @@ class SceneOne: SKScene {
     var inControl = true
     var camPos = -1
     var camCooldown = true
-    var jumpPower = 1500000.0
-    var maxSpeed = 666.666
+    var jumpPower = 1000000.0
+    var maxSpeed = 400.0
     var Player = SKSpriteNode(imageNamed: "guywalking1")
     let joystick = SKSpriteNode(imageNamed: "joystickCircle")
     var TextureAtlas = SKTextureAtlas(named: "assets")
@@ -43,7 +43,8 @@ class SceneOne: SKScene {
         Player = childNode(withName: "guy") as! SKSpriteNode
         Player.physicsBody?.categoryBitMask = PhysicsCategory.player
         Player.physicsBody?.contactTestBitMask = PhysicsCategory.ground
-        
+        let scaleFactor = (700/(scene?.size.width)!)
+        scene?.setScale(scaleFactor)
         
         //TODO: initialize the level assets: BG, player, platforms, etc.
     }
@@ -215,10 +216,8 @@ class SceneOne: SKScene {
                 //what?
             } else if (angInRads <  (Double.pi/4) || angInRads > (7 * Double.pi/4)) { //MOVE RIGHT
                 Player.physicsBody?.velocity.dx += ((speedXToReach - currentSpeedX!) / 4)
-                Player.physicsBody?.velocity.dy = 1
             } else { //MOVE LEFT
                 Player.physicsBody?.velocity.dx += ((speedXToReach - currentSpeedX!) / 4)
-                Player.physicsBody?.velocity.dy = 1
             }
         }
         
@@ -227,7 +226,7 @@ class SceneOne: SKScene {
     func animation() {
         for i in 1...TextureAtlas.textureNames.count{
             
-            var Name = "guywalking\(i).png"
+            let Name = "guywalking\(i).png"
             TextureArray.append(SKTexture(imageNamed: Name))
             Player.run(SKAction.repeatForever(SKAction.animate(with: TextureArray, timePerFrame: 0.3)))
         }
