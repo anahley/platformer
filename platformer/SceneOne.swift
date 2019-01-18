@@ -43,10 +43,11 @@ class SceneOne: SKScene {
         Player = childNode(withName: "guy") as! SKSpriteNode
         Player.physicsBody?.categoryBitMask = PhysicsCategory.player
         Player.physicsBody?.contactTestBitMask = PhysicsCategory.ground
-        let scaleFactor = (700/(scene?.size.width)!)
-        scene?.setScale(scaleFactor)
+        //let scaleFactor = (400/(scene?.size.height)!)
+        scene?.scaleMode = SKSceneScaleMode.aspectFill
+        scene?.size.height = 415
+        scene?.size.width = 735
         
-        //TODO: initialize the level assets: BG, player, platforms, etc.
     }
     
     //when a touch is detected
