@@ -30,7 +30,7 @@ class SceneOne: SKScene {
     var inControl = true
     var camPos = -1
     var camCooldown = true
-    var jumpPower = 1000000.0
+    var jumpPower = 900000.0
     var maxSpeed = 400.0
     var Player = SKSpriteNode(imageNamed: "guywalking1")
     let joystick = SKSpriteNode(imageNamed: "joystickCircle")
@@ -247,17 +247,17 @@ extension SceneOne: SKPhysicsContactDelegate {
         } else {
             firstBody = contact.bodyB
             secondBody = contact.bodyA
-        }
+        } //the object with the lower categoryBitMask is the firstBody
         
         
-        if (firstBody.categoryBitMask == PhysicsCategory.ground && secondBody.categoryBitMask == PhysicsCategory.player) {
+        if (firstBody.categoryBitMask == PhysicsCategory.ground && secondBody.categoryBitMask == PhysicsCategory.player) { //when the player touches the ground (or platform)
             let groundPos = firstBody.node?.position.y
             let playerpos = secondBody.node?.position.y
             if (Double(groundPos!) < Double(playerpos!)){
                 airborne = false
             }
-        }
-        if(secondBody.categoryBitMask == PhysicsCategory.camBounds) {
+        } //when player touches ground (or platform)
+        if(secondBody.categoryBitMask == PhysicsCategory.camBounds) { //when the player touches the camera hitbox
             if(camCooldown) { //if the camera is ready
                 camCooldown = false
                 if(secondBody.node!.name == "camHitboxRight") { // camera moves to next node to the right
@@ -291,6 +291,24 @@ extension SceneOne: SKPhysicsContactDelegate {
                     self.camCooldown = true
                 }]))
             }
-        }
+        } //when player touches cam hitbox
+        
+        if(secondBody.categoryBitMask == PhysicsCategory.object && firstBody.categoryBitMask == PhysicsCategory.player) {
+            inControl = false
+            //set camera, animate, wait, continue
+            let setCamera = SKAction.run {
+                self.camera?.position = (self.childNode(withName: "elevator")?.position)!
+                self.camera?.xScale = (self.camera?.xScale)! * 0.5
+                self.camera?.yScale = (self.camera?.yScale)! * 0.5
+            }
+            //let anim = SKAction....
+            let wait = SKAction.wait(forDuration: 2)
+            let continu = SKAction.run {
+                self.view?.presentScene(SKScene(fileNamed: "whatever"))
+            }
+            run(setCamera)
+            //run(SKAction.sequence([setCamera,anim,wait,continu])
+        } //activate elevator cutscene!
+        
     }
 }
