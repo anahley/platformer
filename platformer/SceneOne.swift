@@ -31,7 +31,7 @@ class SceneOne: SKScene {
     var camPos = -1
     var camCooldown = true
     var level2 = false
-    var jumpPower = 900000.0
+    var jumpPower = 1000000.0
     var maxSpeed = 500.0
     var Player = SKSpriteNode(imageNamed: "guywalking1")
     var levelSix = SKSpriteNode(imageNamed: "level6(1)")
