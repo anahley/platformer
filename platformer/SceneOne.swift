@@ -30,10 +30,11 @@ class SceneOne: SKScene {
     var inControl = true
     var camPos = -1
     var camCooldown = true
+    var level2 = false
     var jumpPower = 900000.0
-    var maxSpeed = 800.0
+    var maxSpeed = 600.0
     var Player = SKSpriteNode(imageNamed: "guywalking1")
-    var levelSix = SKSpriteNode(imageNamed: "level6")
+    var levelSix = SKSpriteNode(imageNamed: "level6(1)")
     let joystick = SKSpriteNode(imageNamed: "joystickCircle")
     var TextureAtlasGuy = SKTextureAtlas(named: "assets")
     var TextureArrayGuy = [SKTexture]()
@@ -44,6 +45,7 @@ class SceneOne: SKScene {
         
         physicsWorld.contactDelegate = self
         Player = childNode(withName: "guy") as! SKSpriteNode
+        levelSix = childNode(withName: "level6") as! SKSpriteNode
         Player.physicsBody?.categoryBitMask = PhysicsCategory.player
         Player.physicsBody?.contactTestBitMask = PhysicsCategory.ground
         //let scaleFactor = (400/(scene?.size.height)!)
@@ -63,6 +65,7 @@ class SceneOne: SKScene {
         let tapPosition = touch.location(in: camera!)
         
         //IF the touch is in the bottom left quarter, JOYSTICK IS ENABLED
+        if (inControl) {
         if ((tapPosition.x < 0) && (tapPosition.y < 0)) {
         
             let handle = SKSpriteNode(imageNamed: "JoystickStick")
@@ -88,6 +91,7 @@ class SceneOne: SKScene {
             joystick.zPosition = 9
             handle.zPosition = 10
             handle.position = CGPoint(x:0,y:0)
+        }
         }
     }
     
@@ -195,6 +199,9 @@ class SceneOne: SKScene {
         if airborne == true {
             Player.run(SKAction.setTexture(SKTexture(imageNamed: "guyjump")))
         }
+        if (level2) {
+            camera?.position.x = Player.position.x
+        }
     }
     
     
@@ -297,34 +304,40 @@ extension SceneOne: SKPhysicsContactDelegate {
         } //when player touches cam hitbox
         
         if(secondBody.categoryBitMask == PhysicsCategory.object && firstBody.categoryBitMask == PhysicsCategory.player) {
-            inControl = false
-            //set camera, animate, wait, continue
-            let setCamera = SKAction.run {
-                self.camera?.position = (self.childNode(withName: "elevator")?.position)!
-                self.camera?.xScale = (self.camera?.xScale)! * 0.5
-                self.camera?.yScale = (self.camera?.yScale)! * 0.5
+            if (inControl) {
+                if (secondBody.node?.name == "elevatorHitbox") {  //activate elevator cutscene!
+                    inControl = false
+                    //set camera, animate, wait, continue
+                    let setCamera = SKAction.run {
+                        self.camera?.position = (self.childNode(withName: "elevator")?.position)!
+                        self.camera?.xScale = (self.camera?.xScale)! * 0.5
+                        self.camera?.yScale = (self.camera?.yScale)! * 0.5
+                    }
+            
+                    let anim = SKAction.run {
+                        for i in 1...self.TextureAtlasLevelSix.textureNames.count{
+                    
+                            let Name = "level6" + String(i) + ".png"
+                            self.TextureArrayLevelSix.append(SKTexture(imageNamed: Name))
+                            self.levelSix.run((SKAction.animate(with: self.TextureArrayLevelSix, timePerFrame: 0.3)))
+                    
+                        }
+                    }
+            
+                    let wait = SKAction.wait(forDuration: 2)
+                    let continu = SKAction.run {
+                        self.level2 = true
+                        self.Player.position = (self.childNode(withName: "gameplay")?.position)!
+                        self.camera?.position = self.Player.position
+                        self.camera?.xScale = (self.camera?.xScale)! * 2
+                        self.camera?.yScale = (self.camera?.yScale)! * 2
+                        self.inControl = true
+                    }
+                    run(SKAction.sequence([setCamera,anim,wait,continu]))
+                } else if (secondBody.node?.name == "end") {
+                    view?.presentScene(SceneHome(size: view!.bounds.size))
+                }
             }
-            
-            
-            //levelSix = SKSpriteNode(imageNamed: "level6(4)") <--- cheap way of doing the animation
-            
-            /*for i in 1...TextureAtlasLevelSix.textureNames.count{
-                
-             
-                let Name = "level6\(i).png"
-                TextureArrayLevelSix.append(SKTexture(imageNamed: Name))
-                levelSix.run(SKAction.repeatForever(SKAction.animate(with: TextureArrayLevelSix, timePerFrame: 0.3)))
-                
-                
-            } <----- actual way of doing the animation */
-            
-            let wait = SKAction.wait(forDuration: 2)
-            let continu = SKAction.run {
-                self.view?.presentScene(SKScene(fileNamed: "whatever"))
-            }
-            run(setCamera)
-            //run(SKAction.sequence([setCamera,anim,wait,continu])
-        } //activate elevator cutscene!
-        
+        }
     }
 }
