@@ -32,7 +32,7 @@ class SceneOne: SKScene {
     var camCooldown = true
     var level2 = false
     var jumpPower = 900000.0
-    var maxSpeed = 600.0
+    var maxSpeed = 500.0
     var Player = SKSpriteNode(imageNamed: "guywalking1")
     var levelSix = SKSpriteNode(imageNamed: "level6(1)")
     let joystick = SKSpriteNode(imageNamed: "joystickCircle")
@@ -305,7 +305,7 @@ extension SceneOne: SKPhysicsContactDelegate {
         
         if(secondBody.categoryBitMask == PhysicsCategory.object && firstBody.categoryBitMask == PhysicsCategory.player) {
             if (inControl) {
-                if (secondBody.node?.name == "elevatorHitbox") {  //activate elevator cutscene!
+                if (secondBody.node?.name == "elevatorHitbox") { //activate elevator cutscene!
                     inControl = false
                     //set camera, animate, wait, continue
                     let setCamera = SKAction.run {
@@ -336,6 +336,10 @@ extension SceneOne: SKPhysicsContactDelegate {
                     run(SKAction.sequence([setCamera,anim,wait,continu]))
                 } else if (secondBody.node?.name == "end") {
                     view?.presentScene(SceneHome(size: view!.bounds.size))
+                } else if (secondBody.node?.name == "lose") {
+                    run(SKAction.run {
+                        self.Player.position = (self.childNode(withName: "gameplay")?.position)!
+                    })
                 }
             }
         }
