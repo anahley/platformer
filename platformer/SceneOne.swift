@@ -31,11 +31,14 @@ class SceneOne: SKScene {
     var camPos = -1
     var camCooldown = true
     var jumpPower = 900000.0
-    var maxSpeed = 400.0
+    var maxSpeed = 800.0
     var Player = SKSpriteNode(imageNamed: "guywalking1")
+    var levelSix = SKSpriteNode(imageNamed: "level6")
     let joystick = SKSpriteNode(imageNamed: "joystickCircle")
-    var TextureAtlas = SKTextureAtlas(named: "assets")
-    var TextureArray = [SKTexture]()
+    var TextureAtlasGuy = SKTextureAtlas(named: "assets")
+    var TextureArrayGuy = [SKTexture]()
+    var TextureAtlasLevelSix = SKTextureAtlas(named: "assetslevel6")
+    var TextureArrayLevelSix = [SKTexture]()
 
     override func didMove(to view: SKView) {
         
@@ -171,7 +174,7 @@ class SceneOne: SKScene {
         if airborne == false { //if you're not jumping
             
             if Player.physicsBody!.velocity.dx == 0  { 
-                animation()
+                animationGuy()
             }
             
             if Player.physicsBody!.velocity.dx < 0 {
@@ -224,12 +227,12 @@ class SceneOne: SKScene {
         
     }
 
-    func animation() {
-        for i in 1...TextureAtlas.textureNames.count{
+    func animationGuy() {
+        for i in 1...TextureAtlasGuy.textureNames.count{
             
             let Name = "guywalking\(i).png"
-            TextureArray.append(SKTexture(imageNamed: Name))
-            Player.run(SKAction.repeatForever(SKAction.animate(with: TextureArray, timePerFrame: 0.3)))
+            TextureArrayGuy.append(SKTexture(imageNamed: Name))
+            Player.run(SKAction.repeatForever(SKAction.animate(with: TextureArrayGuy, timePerFrame: 0.3)))
         }
     }
     
@@ -301,7 +304,20 @@ extension SceneOne: SKPhysicsContactDelegate {
                 self.camera?.xScale = (self.camera?.xScale)! * 0.5
                 self.camera?.yScale = (self.camera?.yScale)! * 0.5
             }
-            //let anim = SKAction....
+            
+            
+            //levelSix = SKSpriteNode(imageNamed: "level6(4)") <--- cheap way of doing the animation
+            
+            /*for i in 1...TextureAtlasLevelSix.textureNames.count{
+                
+             
+                let Name = "level6\(i).png"
+                TextureArrayLevelSix.append(SKTexture(imageNamed: Name))
+                levelSix.run(SKAction.repeatForever(SKAction.animate(with: TextureArrayLevelSix, timePerFrame: 0.3)))
+                
+                
+            } <----- actual way of doing the animation */
+            
             let wait = SKAction.wait(forDuration: 2)
             let continu = SKAction.run {
                 self.view?.presentScene(SKScene(fileNamed: "whatever"))
